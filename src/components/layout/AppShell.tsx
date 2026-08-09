@@ -46,7 +46,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       </header>
 
       <div className="flex min-h-[calc(100dvh-3.5rem)]">
-        <nav aria-label="Primary" className="hidden w-56 shrink-0 border-r border-border bg-surface md:block">
+        <nav
+          aria-label="Primary"
+          className="hidden w-56 shrink-0 border-r border-border bg-surface md:block"
+        >
           <ul className="sticky top-14 space-y-1 p-3">
             {NAV_ITEMS.map((item) => (
               <li key={item.to}>
@@ -80,7 +83,9 @@ export function AppShell({ children }: { children: ReactNode }) {
             ))}
           </nav>
 
-          <main id="main-content" tabIndex={-1} className="mx-auto w-full max-w-[1600px] px-5 py-6">{children}</main>
+          <main id="main-content" tabIndex={-1} className="mx-auto w-full max-w-[1600px] px-5 py-6">
+            {children}
+          </main>
         </div>
       </div>
     </div>

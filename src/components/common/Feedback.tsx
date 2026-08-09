@@ -11,7 +11,11 @@ export function TableSkeleton({ rows = 6, columns = 7 }: { rows?: number; column
   return (
     <div className="divide-y divide-border" aria-hidden>
       {Array.from({ length: rows }).map((_, rowIndex) => (
-        <div key={rowIndex} className="grid gap-4 px-4 py-3" style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}>
+        <div
+          key={rowIndex}
+          className="grid gap-4 px-4 py-3"
+          style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
+        >
           {Array.from({ length: columns }).map((__, columnIndex) => (
             <Skeleton key={columnIndex} className="h-4" />
           ))}
@@ -58,7 +62,15 @@ export function InlineError({
   );
 }
 
-export function EmptyState({ title, description, icon }: { title: string; description: string; icon?: ReactNode }) {
+export function EmptyState({
+  title,
+  description,
+  icon,
+}: {
+  title: string;
+  description: string;
+  icon?: ReactNode;
+}) {
   return (
     <div className="flex flex-col items-center gap-2 px-4 py-10 text-center">
       <span className="text-muted-foreground" aria-hidden>

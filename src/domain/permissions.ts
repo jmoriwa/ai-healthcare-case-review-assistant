@@ -4,11 +4,7 @@ import type { CaseSummary, ReviewerId } from "./models";
 export type CaseAccessMode = "EDITABLE" | "READ_ONLY";
 
 export type ReadOnlyReason =
-  | "AWAITING_ANALYSIS"
-  | "UNCLAIMED"
-  | "ANALYSIS_FAILED"
-  | "OTHER_REVIEWER"
-  | "TERMINAL";
+  "AWAITING_ANALYSIS" | "UNCLAIMED" | "ANALYSIS_FAILED" | "OTHER_REVIEWER" | "TERMINAL";
 
 const TERMINAL_STATUSES: CaseStatus[] = ["COMPLETED", "PENDING_PHYSICIAN_REVIEW"];
 

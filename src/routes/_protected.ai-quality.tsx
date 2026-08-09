@@ -12,8 +12,7 @@ export const Route = createFileRoute("/_protected/ai-quality")({
       { title: "AI Quality — Case Review Assistant" },
       {
         name: "description",
-        content:
-          "Offline evaluation metrics and known failure modes for the case analysis model.",
+        content: "Offline evaluation metrics and known failure modes for the case analysis model.",
       },
       { property: "og:title", content: "AI Quality — Case Review Assistant" },
       {
@@ -43,8 +42,8 @@ function AIQualityPage() {
       {query.data ? (
         <div className="space-y-5">
           <p className="text-meta">
-            Generated {formatDateTime(query.data.generatedAt)} across{" "}
-            {query.data.analysesEvaluated} evaluated analyses.
+            Generated {formatDateTime(query.data.generatedAt)} across {query.data.analysesEvaluated}{" "}
+            evaluated analyses.
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">

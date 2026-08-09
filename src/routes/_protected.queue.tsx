@@ -13,8 +13,7 @@ export const Route = createFileRoute("/_protected/queue")({
       { title: "Case Queue — Case Review Assistant" },
       {
         name: "description",
-        content:
-          "Shared queue of prior authorization cases awaiting AI-assisted clinical review.",
+        content: "Shared queue of prior authorization cases awaiting AI-assisted clinical review.",
       },
       { property: "og:title", content: "Case Queue — Case Review Assistant" },
       {

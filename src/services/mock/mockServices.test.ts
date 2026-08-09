@@ -109,9 +109,9 @@ describe("claim and ownership", () => {
 
     // Every write is refused.
     await expect(reviews.addNote(caseId, { body: "hello" })).rejects.toBeInstanceOf(ForbiddenError);
-    await expect(
-      reviews.saveProgress(caseId, { draftSummary: "x" }),
-    ).rejects.toBeInstanceOf(ForbiddenError);
+    await expect(reviews.saveProgress(caseId, { draftSummary: "x" })).rejects.toBeInstanceOf(
+      ForbiddenError,
+    );
     await expect(cases.claimCase(caseId)).rejects.toBeInstanceOf(ConflictError);
   });
 

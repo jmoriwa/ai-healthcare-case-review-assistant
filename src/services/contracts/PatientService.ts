@@ -1,4 +1,9 @@
-import type { CaseId, EvidenceId, EvidencePassageDetail, PatientTimelineItem } from "@/domain/models";
+import type {
+  CaseId,
+  EvidenceId,
+  EvidencePassageDetail,
+  PatientTimelineItem,
+} from "@/domain/models";
 
 export interface PatientService {
   getTimeline(caseId: CaseId): Promise<PatientTimelineItem[]>;

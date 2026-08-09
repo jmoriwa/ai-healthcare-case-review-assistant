@@ -38,11 +38,7 @@ export const REVIEWER_DECISIONS = [
 export type ReviewerDecision = (typeof REVIEWER_DECISIONS)[number];
 
 export type AnalysisJobStatus =
-  | "QUEUED"
-  | "RUNNING"
-  | "SUCCEEDED"
-  | "FAILED_RETRYABLE"
-  | "FAILED_FINAL";
+  "QUEUED" | "RUNNING" | "SUCCEEDED" | "FAILED_RETRYABLE" | "FAILED_FINAL";
 
 export type ActivityEventType =
   | "CASE_CREATED"
