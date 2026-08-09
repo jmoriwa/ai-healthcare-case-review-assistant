@@ -39,10 +39,28 @@ export function Field({
   error?: string;
   children: ReactNode;
 }) {
+  const describedBy = [hint ? `${htmlFor}-hint` : null, error ? `${htmlFor}-error` : null]
+    .filter(Boolean)
+    .join(" ");
+
+  // Wire the hint/error text to the control so screen readers announce it,
+  // rather than relying on visual proximity alone.
+  const control =
+    describedBy && isValidElement<{ "aria-describedby"?: string; "aria-invalid"?: boolean }>(
+      children,
+    )
+      ? cloneElement(children, {
+          "aria-describedby":
+            [children.props["aria-describedby"], describedBy].filter(Boolean).join(" ") ||
+            undefined,
+          ...(error ? { "aria-invalid": true } : {}),
+        })
+      : children;
+
   return (
     <div className="space-y-1.5">
       <Label htmlFor={htmlFor}>{label}</Label>
-      {children}
+      {control}
       {hint ? (
         <p id={`${htmlFor}-hint`} className="text-meta">
           {hint}
