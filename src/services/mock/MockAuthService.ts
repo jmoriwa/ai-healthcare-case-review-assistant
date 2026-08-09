@@ -1,6 +1,7 @@
 import { UnauthorizedError } from "@/domain/errors";
-import type { AuthSession, Reviewer } from "@/domain/models";
+import type { AuthSession, DemoCredential, Reviewer } from "@/domain/models";
 import type { AuthService } from "@/services/contracts/AuthService";
+import { DEMO_CREDENTIALS } from "@/mocks/fixtures/reviewers";
 import { clone, delay, mockStore } from "./mockStore";
 
 export class MockAuthService implements AuthService {
@@ -24,5 +25,10 @@ export class MockAuthService implements AuthService {
     await delay(120);
     const session = mockStore.getSession();
     return session ? clone(session.reviewer) : null;
+  }
+
+  async listDemoCredentials(): Promise<DemoCredential[]> {
+    await delay(80);
+    return clone(DEMO_CREDENTIALS);
   }
 }

@@ -1,3 +1,4 @@
+import { cloneElement, isValidElement } from "react";
 import type { InputHTMLAttributes, LabelHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
@@ -39,10 +40,31 @@ export function Field({
   error?: string;
   children: ReactNode;
 }) {
+  const describedBy = [hint ? `${htmlFor}-hint` : null, error ? `${htmlFor}-error` : null]
+    .filter(Boolean)
+    .join(" ");
+
+  // Wire the hint/error text to the control so screen readers announce it,
+  // rather than relying on visual proximity alone.
+  const typedChild = isValidElement<{ "aria-describedby"?: string; "aria-invalid"?: boolean }>(
+    children,
+  )
+    ? children
+    : null;
+  const control =
+    describedBy && typedChild
+      ? cloneElement(typedChild, {
+          "aria-describedby": [typedChild.props["aria-describedby"], describedBy]
+            .filter(Boolean)
+            .join(" "),
+          ...(error ? { "aria-invalid": true } : {}),
+        })
+      : children;
+
   return (
     <div className="space-y-1.5">
       <Label htmlFor={htmlFor}>{label}</Label>
-      {children}
+      {control}
       {hint ? (
         <p id={`${htmlFor}-hint`} className="text-meta">
           {hint}

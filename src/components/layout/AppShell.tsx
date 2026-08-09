@@ -20,7 +20,13 @@ export function AppShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-dvh bg-background">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded-md focus:bg-card focus:px-3 focus:py-2 focus:text-sm focus:text-foreground"
+      >
+        Skip to main content
+      </a>
       <header className="sticky top-0 z-30 border-b border-border bg-surface">
         <div className="flex h-14 items-center justify-between gap-6 px-5">
           <div className="flex items-baseline gap-3">
@@ -39,7 +45,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <div className="flex min-h-[calc(100vh-3.5rem)]">
+      <div className="flex min-h-[calc(100dvh-3.5rem)]">
         <nav aria-label="Primary" className="hidden w-56 shrink-0 border-r border-border bg-surface md:block">
           <ul className="sticky top-14 space-y-1 p-3">
             {NAV_ITEMS.map((item) => (
@@ -74,7 +80,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             ))}
           </nav>
 
-          <main className="mx-auto w-full max-w-[1600px] px-5 py-6">{children}</main>
+          <main id="main-content" tabIndex={-1} className="mx-auto w-full max-w-[1600px] px-5 py-6">{children}</main>
         </div>
       </div>
     </div>

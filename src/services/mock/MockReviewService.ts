@@ -10,7 +10,11 @@ import type {
   SaveReviewProgressInput,
 } from "@/domain/models";
 import { canEditReview } from "@/domain/permissions";
-import { validateNoteBody, validateOverrideReason } from "@/domain/validators";
+import {
+  validateFinalDecision,
+  validateNoteBody,
+  validateOverrideReason,
+} from "@/domain/validators";
 import type { ReviewService } from "@/services/contracts/ReviewService";
 import { clone, delay, mockStore } from "./mockStore";
 
@@ -134,6 +138,29 @@ export class MockReviewService implements ReviewService {
   async submitFinalDecision(caseId: CaseId, input: FinalDecisionInput): Promise<ReviewState> {
     await delay(560);
     const { reviewState, reviewer, record } = requireEditableCase(caseId);
+    if (reviewState.finalDecision) {
+      throw new ForbiddenError("A final decision has already been submitted for this case.");
+    }
+
+    const currentAnalysis = (mockStore.getState().analyses[caseId] ?? []).find(
+      (item) => item.isCurrent,
+    );
+    const hasOverrideAgainstRecommendation = reviewState.overrides.some((override) => {
+      const assessment = currentAnalysis?.assessments.find(
+        (item) => item.criterionId === override.criterionId,
+      );
+      return assessment ? assessment.status !== override.status : false;
+    });
+
+    const validation = validateFinalDecision(
+      {
+        decision: input.decision,
+        rationale: input.rationale,
+        missingInformation: input.missingInformation ?? "",
+      },
+      { hasOverrideAgainstRecommendation },
+    );
+    if (!validation.ok) throw new ValidationError(validation.message);
 
     const submittedAt = new Date().toISOString();
     const missingInformation = input.missingInformation?.trim();
