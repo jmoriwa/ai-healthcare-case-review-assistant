@@ -1,0 +1,192 @@
+import type { ProcedureType } from "@/domain/enums";
+import type { MedicalPolicySummary } from "@/domain/models";
+
+const SYNTHETIC_DISCLAIMER = "Synthetic demo policy — not clinical guidance";
+
+export const POLICY_FIXTURES: Record<ProcedureType, MedicalPolicySummary> = {
+  LUMBAR_SPINE_MRI: {
+    id: "pol-lumbar-mri",
+    name: "Demo Policy: Advanced Lumbar Spine Imaging",
+    version: "2.1",
+    effectiveDate: "2026-01-01",
+    syntheticDisclaimer: SYNTHETIC_DISCLAIMER,
+    criteria: [
+      {
+        id: "crit-lmri-1",
+        code: "LMRI-01",
+        ordinal: 1,
+        rule: "Documented low back pain persisting for at least six consecutive weeks.",
+        guidance: "Look for dated symptom onset in encounter notes or a coded condition record.",
+      },
+      {
+        id: "crit-lmri-2",
+        code: "LMRI-02",
+        ordinal: 2,
+        rule: "Completion of a documented trial of conservative therapy.",
+        guidance: "Physical therapy, structured exercise, or documented medication management.",
+      },
+      {
+        id: "crit-lmri-3",
+        code: "LMRI-03",
+        ordinal: 3,
+        rule: "Neurologic findings on examination, or documented red-flag indication.",
+        guidance: "Motor deficit, reflex change, radicular distribution, or suspected malignancy.",
+      },
+      {
+        id: "crit-lmri-4",
+        code: "LMRI-04",
+        ordinal: 4,
+        rule: "No prior advanced lumbar imaging within the preceding ninety days without interval change.",
+        guidance: "Check prior imaging reports and any documented change in symptoms.",
+      },
+    ],
+  },
+  CT_CHEST_WITH_CONTRAST: {
+    id: "pol-ct-chest",
+    name: "Demo Policy: Contrast-Enhanced Chest CT",
+    version: "1.4",
+    effectiveDate: "2026-02-15",
+    syntheticDisclaimer: SYNTHETIC_DISCLAIMER,
+    criteria: [
+      {
+        id: "crit-ctc-1",
+        code: "CTC-01",
+        ordinal: 1,
+        rule: "Documented indication requiring cross-sectional thoracic evaluation.",
+        guidance: "Suspected mass, nodule follow-up, staging, or unresolved infiltrate.",
+      },
+      {
+        id: "crit-ctc-2",
+        code: "CTC-02",
+        ordinal: 2,
+        rule: "Prior chest radiograph reviewed and documented as inconclusive or abnormal.",
+        guidance: "A dated radiology report should be present in the record.",
+      },
+      {
+        id: "crit-ctc-3",
+        code: "CTC-03",
+        ordinal: 3,
+        rule: "Renal function assessment supports contrast administration.",
+        guidance: "Recent creatinine or eGFR result within the documented lookback window.",
+      },
+      {
+        id: "crit-ctc-4",
+        code: "CTC-04",
+        ordinal: 4,
+        rule: "No documented uncontrolled contrast hypersensitivity without a mitigation plan.",
+        guidance: "Allergy list plus any premedication plan noted by the ordering clinician.",
+      },
+    ],
+  },
+  CERVICAL_FUSION_WITH_DISC_REMOVAL: {
+    id: "pol-cervical-fusion",
+    name: "Demo Policy: Single-Level Cervical Fusion",
+    version: "3.0",
+    effectiveDate: "2025-11-01",
+    syntheticDisclaimer: SYNTHETIC_DISCLAIMER,
+    criteria: [
+      {
+        id: "crit-cfu-1",
+        code: "CFU-01",
+        ordinal: 1,
+        rule: "Persistent cervical radiculopathy or myelopathy documented for at least six weeks.",
+        guidance: "Symptom duration should be traceable to a dated clinical note.",
+      },
+      {
+        id: "crit-cfu-2",
+        code: "CFU-02",
+        ordinal: 2,
+        rule: "Advanced imaging correlates with the documented clinical level.",
+        guidance: "MRI or CT myelogram findings matching the symptomatic dermatome.",
+      },
+      {
+        id: "crit-cfu-3",
+        code: "CFU-03",
+        ordinal: 3,
+        rule: "Failure of at least six weeks of documented non-operative management.",
+        guidance: "Therapy, injections, or documented medication trial with response noted.",
+      },
+      {
+        id: "crit-cfu-4",
+        code: "CFU-04",
+        ordinal: 4,
+        rule: "Surgical risk assessment documented by the operating clinician.",
+        guidance: "Pre-operative evaluation or clearance note.",
+      },
+      {
+        id: "crit-cfu-5",
+        code: "CFU-05",
+        ordinal: 5,
+        rule: "Documented absence of active systemic infection at the planned operative site.",
+        guidance: "Recent labs or an infectious disease note may serve as support.",
+      },
+    ],
+  },
+  FACET_JOINT_INTERVENTION: {
+    id: "pol-facet",
+    name: "Demo Policy: Facet Joint Diagnostic Intervention",
+    version: "1.2",
+    effectiveDate: "2026-03-01",
+    syntheticDisclaimer: SYNTHETIC_DISCLAIMER,
+    criteria: [
+      {
+        id: "crit-fjt-1",
+        code: "FJT-01",
+        ordinal: 1,
+        rule: "Axial spine pain documented for at least three months.",
+        guidance: "Chronicity should be supported by more than one dated encounter.",
+      },
+      {
+        id: "crit-fjt-2",
+        code: "FJT-02",
+        ordinal: 2,
+        rule: "Examination findings consistent with a facet-mediated pain pattern.",
+        guidance: "Absence of radicular findings plus documented facet loading response.",
+      },
+      {
+        id: "crit-fjt-3",
+        code: "FJT-03",
+        ordinal: 3,
+        rule: "Documented trial of conservative management without sustained relief.",
+        guidance: "Therapy course or medication trial with an outcome statement.",
+      },
+    ],
+  },
+  RADIATION_THERAPY: {
+    id: "pol-radiation",
+    name: "Demo Policy: External Beam Radiation Course",
+    version: "2.3",
+    effectiveDate: "2025-12-01",
+    syntheticDisclaimer: SYNTHETIC_DISCLAIMER,
+    criteria: [
+      {
+        id: "crit-rad-1",
+        code: "RAD-01",
+        ordinal: 1,
+        rule: "Tissue diagnosis documented in a pathology or diagnostic report.",
+        guidance: "A dated pathology result naming the histology.",
+      },
+      {
+        id: "crit-rad-2",
+        code: "RAD-02",
+        ordinal: 2,
+        rule: "Staging workup documented prior to the planned treatment course.",
+        guidance: "Imaging and clinical staging statement from the treating oncologist.",
+      },
+      {
+        id: "crit-rad-3",
+        code: "RAD-03",
+        ordinal: 3,
+        rule: "Treatment plan specifies modality, dose, and fractionation.",
+        guidance: "A radiation oncology planning note containing all three elements.",
+      },
+      {
+        id: "crit-rad-4",
+        code: "RAD-04",
+        ordinal: 4,
+        rule: "Performance status documented and consistent with the proposed course.",
+        guidance: "A recorded performance score or equivalent functional description.",
+      },
+    ],
+  },
+};
