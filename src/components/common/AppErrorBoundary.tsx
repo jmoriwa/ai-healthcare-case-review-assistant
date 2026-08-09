@@ -15,13 +15,13 @@ interface State {
  * single broken panel cannot blank the whole application.
  */
 export class AppErrorBoundary extends Component<Props, State> {
-  state: State = { error: null };
+  override state: State = { error: null };
 
   static getDerivedStateFromError(error: Error): State {
     return { error };
   }
 
-  componentDidCatch(error: Error, info: ErrorInfo): void {
+  override componentDidCatch(error: Error, info: ErrorInfo): void {
     console.error(error, info.componentStack);
     reportLovableError(error, { boundary: "app_error_boundary" });
   }
@@ -30,7 +30,7 @@ export class AppErrorBoundary extends Component<Props, State> {
     this.setState({ error: null });
   };
 
-  render() {
+  override render() {
     const { error } = this.state;
     if (!error) return this.props.children;
 
