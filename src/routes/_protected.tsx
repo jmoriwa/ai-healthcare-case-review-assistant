@@ -1,5 +1,6 @@
 import { Outlet, createFileRoute, useRouter } from "@tanstack/react-router";
 import { useEffect } from "react";
+import { AppErrorBoundary } from "@/components/common/AppErrorBoundary";
 import { AppShell } from "@/components/layout/AppShell";
 import { useAuth } from "@/hooks/auth/useAuth";
 
@@ -27,7 +28,9 @@ function ProtectedLayout() {
 
   return (
     <AppShell>
-      <Outlet />
+      <AppErrorBoundary>
+        <Outlet />
+      </AppErrorBoundary>
     </AppShell>
   );
 }
