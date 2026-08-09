@@ -1,4 +1,4 @@
-import { Outlet, createFileRoute, redirect, useRouter } from "@tanstack/react-router";
+import { Outlet, createFileRoute, useRouter } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { AppShell } from "@/components/layout/AppShell";
 import { useAuth } from "@/hooks/auth/useAuth";
@@ -31,5 +31,3 @@ function ProtectedLayout() {
     </AppShell>
   );
 }
-
-export { redirect };
