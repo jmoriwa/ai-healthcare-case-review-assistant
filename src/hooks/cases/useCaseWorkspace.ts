@@ -44,7 +44,7 @@ export function useCaseWorkspace(caseId: string) {
   const analysis =
     selectedAnalysisId && historicalAnalysis.data
       ? historicalAnalysis.data
-      : caseDetail?.currentAnalysis;
+      : (caseDetail?.currentAnalysis ?? null);
 
   return {
     caseId,
