@@ -80,7 +80,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             ))}
           </nav>
 
-          <main className="mx-auto w-full max-w-[1600px] px-5 py-6">{children}</main>
+          <main id="main-content" tabIndex={-1} className="mx-auto w-full max-w-[1600px] px-5 py-6">{children}</main>
         </div>
       </div>
     </div>
