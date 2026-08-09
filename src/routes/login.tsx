@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/common/Button";
 import { Field, TextInput } from "@/components/common/Field";
 import { InlineError, errorMessage } from "@/components/common/Feedback";
-import { DEMO_CREDENTIALS } from "@/mocks/fixtures/reviewers";
 import { useAuth } from "@/hooks/auth/useAuth";
+import { useDemoCredentials } from "@/hooks/auth/useDemoCredentials";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
