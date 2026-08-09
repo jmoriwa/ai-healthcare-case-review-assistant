@@ -140,6 +140,7 @@ function CriterionRow({
                   <button
                     type="button"
                     onClick={() => onOpenEvidence(evidence.id)}
+                    aria-label={`View the cited passage from ${evidence.recordLabel}`}
                     className="rounded-md border border-border-strong bg-card px-2 py-1 text-left text-xs text-foreground hover:bg-secondary"
                   >
                     <span className="font-medium">{evidence.recordLabel}</span>
