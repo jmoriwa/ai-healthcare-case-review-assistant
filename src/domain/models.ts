@@ -31,6 +31,13 @@ export interface AuthSession {
   token?: string;
 }
 
+/** Demo-only sign-in hint surfaced by the auth service, never read from fixtures by the UI. */
+export interface DemoCredential {
+  email: string;
+  password: string;
+  displayName: string;
+}
+
 export interface PatientSummary {
   id: string;
   displayName: string;
