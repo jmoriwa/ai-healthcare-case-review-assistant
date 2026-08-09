@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ProtectedAiQualityRouteImport } from './routes/_protected.ai-quality'
 import { Route as ProtectedMyCasesRouteImport } from './routes/_protected.my-cases'
 import { Route as ProtectedQueueRouteImport } from './routes/_protected.queue'
 
@@ -29,6 +30,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProtectedAiQualityRoute = ProtectedAiQualityRouteImport.update({
+  id: '/ai-quality',
+  path: '/ai-quality',
+  getParentRoute: () => ProtectedRoute,
+} as any)
 const ProtectedMyCasesRoute = ProtectedMyCasesRouteImport.update({
   id: '/my-cases',
   path: '/my-cases',
@@ -43,12 +49,14 @@ const ProtectedQueueRoute = ProtectedQueueRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/ai-quality': typeof ProtectedAiQualityRoute
   '/my-cases': typeof ProtectedMyCasesRoute
   '/queue': typeof ProtectedQueueRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/ai-quality': typeof ProtectedAiQualityRoute
   '/my-cases': typeof ProtectedMyCasesRoute
   '/queue': typeof ProtectedQueueRoute
 }
@@ -57,19 +65,21 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_protected': typeof ProtectedRouteWithChildren
   '/login': typeof LoginRoute
+  '/_protected/ai-quality': typeof ProtectedAiQualityRoute
   '/_protected/my-cases': typeof ProtectedMyCasesRoute
   '/_protected/queue': typeof ProtectedQueueRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/my-cases' | '/queue'
+  fullPaths: '/' | '/login' | '/ai-quality' | '/my-cases' | '/queue'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/my-cases' | '/queue'
+  to: '/' | '/login' | '/ai-quality' | '/my-cases' | '/queue'
   id:
     | '__root__'
     | '/'
     | '/_protected'
     | '/login'
+    | '/_protected/ai-quality'
     | '/_protected/my-cases'
     | '/_protected/queue'
   fileRoutesById: FileRoutesById
@@ -103,6 +113,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_protected/ai-quality': {
+      id: '/_protected/ai-quality'
+      path: '/ai-quality'
+      fullPath: '/ai-quality'
+      preLoaderRoute: typeof ProtectedAiQualityRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/my-cases': {
       id: '/_protected/my-cases'
       path: '/my-cases'
@@ -121,11 +138,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface ProtectedRouteChildren {
+  ProtectedAiQualityRoute: typeof ProtectedAiQualityRoute
   ProtectedMyCasesRoute: typeof ProtectedMyCasesRoute
   ProtectedQueueRoute: typeof ProtectedQueueRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
+  ProtectedAiQualityRoute: ProtectedAiQualityRoute,
   ProtectedMyCasesRoute: ProtectedMyCasesRoute,
   ProtectedQueueRoute: ProtectedQueueRoute,
 }
@@ -142,13 +161,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
