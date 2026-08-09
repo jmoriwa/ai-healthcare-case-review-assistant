@@ -55,7 +55,7 @@ function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-10">
+    <div className="flex min-h-dvh items-center justify-center bg-background px-4 py-10">
       <div className="w-full max-w-md space-y-5">
         <div className="space-y-1.5 text-center">
           <h1 className="text-page-title">Healthcare Case Review Assistant</h1>
