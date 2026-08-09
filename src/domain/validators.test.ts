@@ -40,9 +40,9 @@ describe("final decision validation", () => {
 
   it("always requires a rationale for Deny", () => {
     expect(validateFinalDecision(draft({ decision: "DENY" }), noOverride).ok).toBe(false);
-    expect(
-      validateFinalDecision(draft({ decision: "DENY", rationale: LONG }), noOverride).ok,
-    ).toBe(true);
+    expect(validateFinalDecision(draft({ decision: "DENY", rationale: LONG }), noOverride).ok).toBe(
+      true,
+    );
   });
 
   it("always requires a rationale for Escalate", () => {

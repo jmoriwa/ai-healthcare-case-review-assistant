@@ -6,8 +6,7 @@ export default defineConfig({
   test: {
     include: ["src/**/*.test.ts"],
     environment: "node",
-    // Mock services simulate network latency, so multi-step business-rule
-    // tests need more headroom than the default 5s.
-    testTimeout: 30_000,
+    // Simulated mock latency is disabled in setup, so the default timeout is plenty.
+    setupFiles: ["./src/test/setup.ts"],
   },
 });

@@ -26,7 +26,10 @@ export function CaseFilterBar({
           id="case-procedure"
           value={filters.procedureType}
           onChange={(event) =>
-            onChange({ ...filters, procedureType: event.target.value as Required<CaseFilters>["procedureType"] })
+            onChange({
+              ...filters,
+              procedureType: event.target.value as Required<CaseFilters>["procedureType"],
+            })
           }
         >
           <option value="ALL">All procedures</option>

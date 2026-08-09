@@ -118,7 +118,8 @@ const TIMELINE_TEMPLATES: Array<{
     recordType: "Condition",
     title: "Historical resolved condition",
     summary: "Condition marked resolved several years ago.",
-    details: "Synthetic condition record retained for history; not relevant to the current request.",
+    details:
+      "Synthetic condition record retained for history; not relevant to the current request.",
   },
   {
     recordType: "Procedure",

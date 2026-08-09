@@ -36,15 +36,23 @@ export function NotesPanel({
 
   return (
     <Card>
-      <CardHeader title="Reviewer notes" description="Notes are permanent and visible to all reviewers." />
+      <CardHeader
+        title="Reviewer notes"
+        description="Notes are permanent and visible to all reviewers."
+      />
       {notes.length === 0 ? (
-        <EmptyState title="No notes yet" description="Notes you add are recorded on the case activity log." />
+        <EmptyState
+          title="No notes yet"
+          description="Notes you add are recorded on the case activity log."
+        />
       ) : (
         <ul className="divide-y divide-border">
           {notes.map((note) => (
             <li key={note.id} className="space-y-1 px-4 py-3">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <span className="text-sm font-medium text-foreground">{note.author.displayName}</span>
+                <span className="text-sm font-medium text-foreground">
+                  {note.author.displayName}
+                </span>
                 <span className="text-meta">
                   {formatDateTime(note.createdAt)} · {CASE_STATUS_LABELS[note.caseStatusAtCreation]}
                 </span>

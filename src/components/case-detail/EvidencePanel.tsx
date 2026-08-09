@@ -33,8 +33,8 @@ export function EvidencePanel({
           <div className="space-y-0.5">
             <p className="text-sm font-medium text-foreground">{query.data.recordLabel}</p>
             <p className="text-meta">
-              {RECORD_TYPE_LABELS[query.data.recordType]} · {formatDateTime(query.data.occurredAt)} ·{" "}
-              {query.data.sourceRecordId}
+              {RECORD_TYPE_LABELS[query.data.recordType]} · {formatDateTime(query.data.occurredAt)}{" "}
+              · {query.data.sourceRecordId}
             </p>
           </div>
           <p className="whitespace-pre-wrap rounded-md border border-border bg-neutral-surface p-3 text-sm leading-relaxed text-foreground">

@@ -10,6 +10,7 @@ import type {
   SaveReviewProgressInput,
 } from "@/domain/models";
 import { canEditReview } from "@/domain/permissions";
+import { hasOverrideAgainstRecommendation } from "@/domain/review";
 import {
   validateFinalDecision,
   validateNoteBody,
@@ -145,12 +146,10 @@ export class MockReviewService implements ReviewService {
     const currentAnalysis = (mockStore.getState().analyses[caseId] ?? []).find(
       (item) => item.isCurrent,
     );
-    const hasOverrideAgainstRecommendation = reviewState.overrides.some((override) => {
-      const assessment = currentAnalysis?.assessments.find(
-        (item) => item.criterionId === override.criterionId,
-      );
-      return assessment ? assessment.status !== override.status : false;
-    });
+    const overrodeAI = hasOverrideAgainstRecommendation(
+      currentAnalysis?.assessments,
+      reviewState.overrides,
+    );
 
     const validation = validateFinalDecision(
       {
@@ -158,7 +157,7 @@ export class MockReviewService implements ReviewService {
         rationale: input.rationale,
         missingInformation: input.missingInformation ?? "",
       },
-      { hasOverrideAgainstRecommendation },
+      { hasOverrideAgainstRecommendation: overrodeAI },
     );
     if (!validation.ok) throw new ValidationError(validation.message);
 

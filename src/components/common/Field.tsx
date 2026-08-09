@@ -1,5 +1,11 @@
 import { cloneElement, isValidElement } from "react";
-import type { InputHTMLAttributes, LabelHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
+import type {
+  InputHTMLAttributes,
+  LabelHTMLAttributes,
+  ReactNode,
+  SelectHTMLAttributes,
+  TextareaHTMLAttributes,
+} from "react";
 import { cn } from "@/lib/utils";
 
 const controlClasses =
@@ -16,10 +22,19 @@ export function TextInput({ className, ...props }: InputHTMLAttributes<HTMLInput
 }
 
 export function TextArea({ className, ...props }: TextareaHTMLAttributes<HTMLTextAreaElement>) {
-  return <textarea className={cn(controlClasses, "min-h-24 py-2 leading-relaxed", className)} {...props} />;
+  return (
+    <textarea
+      className={cn(controlClasses, "min-h-24 py-2 leading-relaxed", className)}
+      {...props}
+    />
+  );
 }
 
-export function SelectInput({ className, children, ...props }: SelectHTMLAttributes<HTMLSelectElement>) {
+export function SelectInput({
+  className,
+  children,
+  ...props
+}: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <select className={cn(controlClasses, "h-10", className)} {...props}>
       {children}
@@ -71,7 +86,11 @@ export function Field({
         </p>
       ) : null}
       {error ? (
-        <p id={`${htmlFor}-error`} role="alert" className="text-xs font-medium text-negative-foreground">
+        <p
+          id={`${htmlFor}-error`}
+          role="alert"
+          className="text-xs font-medium text-negative-foreground"
+        >
           {error}
         </p>
       ) : null}

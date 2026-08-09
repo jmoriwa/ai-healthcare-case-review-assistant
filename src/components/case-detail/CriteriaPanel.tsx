@@ -146,7 +146,8 @@ function CriterionRow({
                     <span className="font-medium">{evidence.recordLabel}</span>
                     <span className="text-muted-foreground">
                       {" "}
-                      · {RECORD_TYPE_LABELS[evidence.recordType]} · {formatDate(evidence.occurredAt)}
+                      · {RECORD_TYPE_LABELS[evidence.recordType]} ·{" "}
+                      {formatDate(evidence.occurredAt)}
                     </span>
                   </button>
                 </li>

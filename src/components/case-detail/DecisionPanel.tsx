@@ -42,7 +42,10 @@ export function DecisionPanel({
   if (finalDecision) {
     return (
       <Card>
-        <CardHeader title="Final decision" description="This review has been submitted and is read-only." />
+        <CardHeader
+          title="Final decision"
+          description="This review has been submitted and is read-only."
+        />
         <CardBody className="space-y-2">
           <p className="text-sm font-medium text-foreground">
             {REVIEWER_DECISION_LABELS[finalDecision.decision]}
@@ -97,9 +100,7 @@ export function DecisionPanel({
         <Field
           label="Working summary"
           htmlFor="draft-summary"
-          hint={
-            lastSavedAt ? `Last saved ${formatDateTime(lastSavedAt)}` : "Not saved yet"
-          }
+          hint={lastSavedAt ? `Last saved ${formatDateTime(lastSavedAt)}` : "Not saved yet"}
         >
           <TextArea
             id="draft-summary"

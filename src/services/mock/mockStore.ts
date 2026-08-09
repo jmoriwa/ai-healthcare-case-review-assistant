@@ -42,10 +42,25 @@ class MockStore {
 
 export const mockStore = new MockStore();
 
-/** Simulated service latency so loading states are exercised realistically. */
+/**
+ * Simulated service latency. Configurable so automated tests can run with zero
+ * delay while normal mock usage keeps realistic loading states.
+ */
+let latencyScale = 1;
+
+export function setMockLatencyScale(scale: number): void {
+  latencyScale = Math.max(0, scale);
+}
+
+export function disableMockLatency(): void {
+  setMockLatencyScale(0);
+}
+
 export function delay(ms = 420): Promise<void> {
+  const duration = Math.round(ms * latencyScale);
+  if (duration <= 0) return Promise.resolve();
   return new Promise((resolve) => {
-    setTimeout(resolve, ms);
+    setTimeout(resolve, duration);
   });
 }
 

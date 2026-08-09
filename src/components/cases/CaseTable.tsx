@@ -42,12 +42,24 @@ export function CaseTable({
         <caption className="sr-only">Prior authorization cases</caption>
         <thead>
           <tr className="border-b border-border bg-neutral-surface text-left">
-            <th scope="col" className="px-4 py-2.5 text-xs font-semibold text-muted-foreground">Case</th>
-            <th scope="col" className="px-4 py-2.5 text-xs font-semibold text-muted-foreground">Patient</th>
-            <th scope="col" className="px-4 py-2.5 text-xs font-semibold text-muted-foreground">Procedure</th>
-            <th scope="col" className="px-4 py-2.5 text-xs font-semibold text-muted-foreground">Status</th>
-            <th scope="col" className="px-4 py-2.5 text-xs font-semibold text-muted-foreground">Assigned</th>
-            <th scope="col" className="px-4 py-2.5 text-xs font-semibold text-muted-foreground">Updated</th>
+            <th scope="col" className="px-4 py-2.5 text-xs font-semibold text-muted-foreground">
+              Case
+            </th>
+            <th scope="col" className="px-4 py-2.5 text-xs font-semibold text-muted-foreground">
+              Patient
+            </th>
+            <th scope="col" className="px-4 py-2.5 text-xs font-semibold text-muted-foreground">
+              Procedure
+            </th>
+            <th scope="col" className="px-4 py-2.5 text-xs font-semibold text-muted-foreground">
+              Status
+            </th>
+            <th scope="col" className="px-4 py-2.5 text-xs font-semibold text-muted-foreground">
+              Assigned
+            </th>
+            <th scope="col" className="px-4 py-2.5 text-xs font-semibold text-muted-foreground">
+              Updated
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
