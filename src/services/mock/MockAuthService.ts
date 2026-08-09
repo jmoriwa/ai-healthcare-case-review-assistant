@@ -1,6 +1,7 @@
 import { UnauthorizedError } from "@/domain/errors";
-import type { AuthSession, Reviewer } from "@/domain/models";
+import type { AuthSession, DemoCredential, Reviewer } from "@/domain/models";
 import type { AuthService } from "@/services/contracts/AuthService";
+import { DEMO_CREDENTIALS } from "@/mocks/fixtures/reviewers";
 import { clone, delay, mockStore } from "./mockStore";
 
 export class MockAuthService implements AuthService {
