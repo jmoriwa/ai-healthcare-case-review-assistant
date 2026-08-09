@@ -39,7 +39,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <div className="flex">
+      <div className="flex min-h-[calc(100vh-3.5rem)]">
         <nav aria-label="Primary" className="hidden w-56 shrink-0 border-r border-border bg-surface md:block">
           <ul className="sticky top-14 space-y-1 p-3">
             {NAV_ITEMS.map((item) => (
@@ -57,21 +57,26 @@ export function AppShell({ children }: { children: ReactNode }) {
           </ul>
         </nav>
 
-        <nav aria-label="Primary" className="flex w-full gap-1 border-b border-border bg-surface px-3 py-2 md:hidden">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className="flex h-11 flex-1 items-center justify-center rounded-md px-2 text-xs text-foreground"
-              activeProps={{ className: "bg-accent font-medium text-accent-foreground" }}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </div>
+        <div className="min-w-0 flex-1">
+          <nav
+            aria-label="Sections"
+            className="flex gap-1 border-b border-border bg-surface px-3 py-2 md:hidden"
+          >
+            {NAV_ITEMS.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="flex h-11 flex-1 items-center justify-center rounded-md px-2 text-xs text-foreground"
+                activeProps={{ className: "bg-accent font-medium text-accent-foreground" }}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
 
-      <main className="mx-auto w-full max-w-[1600px] px-5 py-6 md:pl-[15.5rem]">{children}</main>
+          <main className="mx-auto w-full max-w-[1600px] px-5 py-6">{children}</main>
+        </div>
+      </div>
     </div>
   );
 }
