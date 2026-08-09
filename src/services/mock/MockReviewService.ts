@@ -10,7 +10,11 @@ import type {
   SaveReviewProgressInput,
 } from "@/domain/models";
 import { canEditReview } from "@/domain/permissions";
-import { validateNoteBody, validateOverrideReason } from "@/domain/validators";
+import {
+  validateFinalDecision,
+  validateNoteBody,
+  validateOverrideReason,
+} from "@/domain/validators";
 import type { ReviewService } from "@/services/contracts/ReviewService";
 import { clone, delay, mockStore } from "./mockStore";
 
