@@ -26,4 +26,9 @@ export class MockAuthService implements AuthService {
     const session = mockStore.getSession();
     return session ? clone(session.reviewer) : null;
   }
+
+  async listDemoCredentials(): Promise<DemoCredential[]> {
+    await delay(80);
+    return clone(DEMO_CREDENTIALS);
+  }
 }
