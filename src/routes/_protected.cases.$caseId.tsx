@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 import { Button } from "@/components/common/Button";
 import { Card, CardBody } from "@/components/common/Card";
 import { InlineError, LoadingRegion, Skeleton, errorMessage } from "@/components/common/Feedback";
@@ -15,24 +14,9 @@ import { EvidencePanel } from "@/components/case-detail/EvidencePanel";
 import { NotesPanel } from "@/components/case-detail/NotesPanel";
 import { ActivityPanel, TimelinePanel } from "@/components/case-detail/TimelinePanel";
 import { PROCEDURE_LABELS } from "@/domain/labels";
-import type { EvidenceId, FinalDecisionInput } from "@/domain/models";
-import { canClaimCase, canEditReview, describeReadOnlyReason, getReadOnlyReason } from "@/domain/permissions";
+import { describeReadOnlyReason } from "@/domain/permissions";
 import { formatAge, formatDate, formatDateTime } from "@/lib/dates";
-import { useAuth } from "@/hooks/auth/useAuth";
-import {
-  useAnalysisVersion,
-  useAnalysisVersions,
-  useCase,
-  useCaseActivity,
-  useClaimCase,
-} from "@/hooks/cases/useCases";
-import {
-  useAddNote,
-  useOverrideCriterion,
-  useReviewState,
-  useSaveProgress,
-  useSubmitFinalDecision,
-} from "@/hooks/reviews/useReview";
+import { useCaseWorkspace } from "@/hooks/cases/useCaseWorkspace";
 
 export const Route = createFileRoute("/_protected/cases/$caseId")({
   head: () => ({
@@ -55,21 +39,31 @@ export const Route = createFileRoute("/_protected/cases/$caseId")({
 
 function CaseDetailPage() {
   const { caseId } = Route.useParams();
-  const { reviewer } = useAuth();
-  const [evidenceId, setEvidenceId] = useState<EvidenceId | null>(null);
-  const [selectedAnalysisId, setSelectedAnalysisId] = useState<string | null>(null);
-
-  const caseQuery = useCase(caseId);
-  const reviewQuery = useReviewState(caseId);
-  const activityQuery = useCaseActivity(caseId);
-  const versionsQuery = useAnalysisVersions(caseId);
-  const historicalAnalysis = useAnalysisVersion(caseId, selectedAnalysisId);
-
-  const claim = useClaimCase(caseId);
-  const saveProgress = useSaveProgress(caseId);
-  const addNote = useAddNote(caseId);
-  const overrideCriterion = useOverrideCriterion(caseId);
-  const submitDecision = useSubmitFinalDecision(caseId);
+  const workspace = useCaseWorkspace(caseId);
+  const {
+    reviewer,
+    caseQuery,
+    reviewQuery,
+    activityQuery,
+    versionsQuery,
+    historicalAnalysis,
+    caseDetail,
+    analysis,
+    overrides,
+    isViewingHistorical,
+    hasOverrideAgainstRecommendation,
+    canEdit,
+    canClaim,
+    readOnlyReason,
+    evidenceId,
+    selectedAnalysisId,
+    claim,
+    saveProgress,
+    addNote,
+    overrideCriterion,
+    submitDecision,
+    actions,
+  } = workspace;
 
   if (caseQuery.isPending) {
     return (
@@ -81,7 +75,7 @@ function CaseDetailPage() {
     );
   }
 
-  if (caseQuery.error || !caseQuery.data) {
+  if (caseQuery.error || !caseDetail) {
     return (
       <InlineError
         title="This case could not be loaded"
@@ -90,26 +84,6 @@ function CaseDetailPage() {
       />
     );
   }
-
-  const caseDetail = caseQuery.data;
-  const canEdit = canEditReview(caseDetail, reviewer?.id);
-  const canClaim = canClaimCase(caseDetail, reviewer?.id);
-  const readOnlyReason = getReadOnlyReason(caseDetail, reviewer?.id);
-  const analysis =
-    selectedAnalysisId && historicalAnalysis.data
-      ? historicalAnalysis.data
-      : caseDetail.currentAnalysis;
-  const isViewingHistorical = Boolean(
-    selectedAnalysisId && analysis && analysis.id !== caseDetail.currentAnalysis?.id,
-  );
-
-  const overrides = reviewQuery.data?.overrides ?? [];
-  const hasOverrideAgainstRecommendation = overrides.some((override) => {
-    const assessment = caseDetail.currentAnalysis?.assessments.find(
-      (item) => item.criterionId === override.criterionId,
-    );
-    return assessment ? assessment.status !== override.status : false;
-  });
 
   return (
     <div className="space-y-5">
@@ -141,7 +115,7 @@ function CaseDetailPage() {
         </div>
 
         {canClaim ? (
-          <Button onClick={() => claim.mutate()} disabled={claim.isPending}>
+          <Button onClick={actions.claimCase} disabled={claim.isPending}>
             {claim.isPending ? "Claiming…" : "Claim case"}
           </Button>
         ) : null}
@@ -179,12 +153,7 @@ function CaseDetailPage() {
                       <SelectInput
                         className="mt-1 h-9 w-48"
                         value={selectedAnalysisId ?? caseDetail.currentAnalysis.id}
-                        onChange={(event) => {
-                          const value = event.target.value;
-                          setSelectedAnalysisId(
-                            value === caseDetail.currentAnalysis?.id ? null : value,
-                          );
-                        }}
+                        onChange={(event) => workspace.selectAnalysisVersion(event.target.value)}
                       >
                         {versionsQuery.data.map((version) => (
                           <option key={version.id} value={version.id}>
@@ -225,7 +194,7 @@ function CaseDetailPage() {
             onOverride={async (input) => {
               await overrideCriterion.mutateAsync(input);
             }}
-            onOpenEvidence={setEvidenceId}
+            onOpenEvidence={workspace.openEvidence}
           />
 
           <TimelinePanel caseId={caseId} />
@@ -249,20 +218,14 @@ function CaseDetailPage() {
                 lastSavedAt={reviewQuery.data.lastSavedAt}
                 isSavingDraft={saveProgress.isPending}
                 isSubmitting={submitDecision.isPending}
-                onSaveDraft={async (draftSummary) => {
-                  await saveProgress.mutateAsync({ draftSummary });
-                }}
-                onSubmit={async (input: FinalDecisionInput) => {
-                  await submitDecision.mutateAsync(input);
-                }}
+                onSaveDraft={actions.saveDraft}
+                onSubmit={actions.submitDecision}
               />
               <NotesPanel
                 notes={reviewQuery.data.notes}
                 canEdit={canEdit}
                 isSaving={addNote.isPending}
-                onAddNote={async (body) => {
-                  await addNote.mutateAsync({ body });
-                }}
+                onAddNote={actions.addNote}
               />
             </>
           ) : null}
@@ -276,7 +239,7 @@ function CaseDetailPage() {
         </div>
       </div>
 
-      <EvidencePanel caseId={caseId} evidenceId={evidenceId} onClose={() => setEvidenceId(null)} />
+      <EvidencePanel caseId={caseId} evidenceId={evidenceId} onClose={workspace.closeEvidence} />
     </div>
   );
 }
