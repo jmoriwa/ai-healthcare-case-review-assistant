@@ -100,7 +100,7 @@ function LoginPage() {
         <div className="rounded-lg border border-border bg-neutral-surface p-4">
           <h2 className="text-xs font-semibold text-foreground">Demo accounts</h2>
           <ul className="mt-2 space-y-1.5">
-            {DEMO_CREDENTIALS.map((credential) => (
+            {(demoCredentials.data ?? []).map((credential) => (
               <li key={credential.email} className="flex items-center justify-between gap-3">
                 <span className="text-meta">
                   {credential.displayName} · {credential.email}
